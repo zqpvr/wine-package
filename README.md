@@ -10,7 +10,7 @@ git clone https://github.com/zqpvr/wine-install-script.git
 ```
 Navigate to the wine directory by running the following command:
 ```
-cd wine
+cd wine-install-script
 ```
 Make the wine.sh script executable by running the following command:
 ```
