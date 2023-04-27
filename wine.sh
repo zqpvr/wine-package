@@ -81,6 +81,8 @@ while true; do
             ;;
         5)
             clean_up
+            ;;
+        6)  
             exit 0
             ;;
     esac
