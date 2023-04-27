@@ -87,5 +87,3 @@ while true; do
             ;;
     esac
 done
-
-echo -en "\033]11;black\007"
