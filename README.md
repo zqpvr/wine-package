@@ -18,7 +18,7 @@ chmod +x wine.sh
 ```
 Run the wine.sh script by running the following command:
 ```
-./wine.sh
+bash wine.sh
 ```
 You may be prompted to enter your password to install packages.
 
