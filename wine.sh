@@ -79,11 +79,11 @@ function compile_install_box86() {
     cd box86 
     mkdir build 
     cd build 
-    cmake .. -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc-8 -DARM_DYNAREC=ON
+    cmake .. -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc-8 -DARM_DYNAREC=ON || error "Compilation failed"
     echo "Building Box86"
     make -j$(nproc)
     echo "Still Building Box86"
-    sudo make install
+    sudo make install || error "Make install failed"
     sudo systemctl restart systemd-binfmt
 }
 
