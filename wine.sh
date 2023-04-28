@@ -7,7 +7,7 @@ DIALOG_WIDTH=80
 # Define options menu
 OPTIONS=(1 "Install Box64 Binary"
          2 "Install Box86 Binary"
-         3 "Install Wine and dependencies"
+         3 "Install Wine"
          4 "Install Winetricks"
          5 "Install required packages"
          6 "Compile and Install Box64 from source"
@@ -35,9 +35,9 @@ function install_box86() {
     sudo apt install box86-tegrax1 -y
 }
 
-# Define function to install Wine and dependencies
+# Define function to install Wine
 function install_wine() {
-    dialog --infobox "Installing Wine and dependencies..." $DIALOG_HEIGHT $DIALOG_WIDTH
+    dialog --infobox "Installing Wine..." $DIALOG_HEIGHT $DIALOG_WIDTH
     wget --show-progress -O wine-8.6-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.6/wine-8.6-staging-tkg-amd64.tar.xz
     tar -xf wine-8.6-staging-tkg-amd64.tar.xz # Extract Wine
     mkdir ~/wine # Create Wine directory
