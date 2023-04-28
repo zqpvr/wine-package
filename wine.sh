@@ -107,8 +107,8 @@ function remove_box86() {
 # Define function to clean up downloaded files and uncompressed files
 function clean_up() {
     dialog --infobox "Cleaning up downloaded files and uncompressed files..." $DIALOG_HEIGHT $DIALOG_WIDTH
-    rm wine-8.6-amd64.tar.xz
-    rm -r wine-8.6-amd64
+    rm wine-8.6-staging-tkg-amd64.tar.xz
+    rm -r wine-8.6-staging-tkg-amd64
 }
 
 # Loop through options until user exits
