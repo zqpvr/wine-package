@@ -6,11 +6,11 @@ Open a terminal window on your Ubuntu system.
 
 Clone the wine repository from GitHub by running the following command:
 ```
-git clone https://github.com/zqpvr/wine-install-script.git
+git clone https://github.com/zqpvr/wine-package.git
 ```
 Navigate to the wine directory by running the following command:
 ```
-cd wine-install-script
+cd wine-package
 ```
 Make the wine.sh script executable by running the following command:
 ```
