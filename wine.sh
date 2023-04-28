@@ -12,8 +12,10 @@ OPTIONS=(1 "Install Box64 Binary"
          5 "Install required packages"
          6 "Compile and Install Box64 from source"
          7 "Compile and Install Box86 from source"
-         8 "Clean up downloaded files and uncompressed files"
-         9 "Exit")
+         8 "Remove Box64 Binary"
+         9 "Remove Box86 Binary"
+         10 "Clean up downloaded files and uncompressed files"
+         11 "Exit")
 
 # Define function to install Box64 Binary
 function install_box64() {
@@ -87,6 +89,18 @@ function compile_install_box86() {
     sudo systemctl restart systemd-binfmt
 }
 
+# Define function to remove Box64 Binary
+function remove_box64() {
+    dialog --infobox "Removing Box64 Binary..." $DIALOG_HEIGHT $DIALOG_WIDTH
+    sudo apt-get remove -y box64-tegrax1
+}
+
+# Define function to remove Box86 Binary
+function remove_box86() {
+    dialog --infobox "Removing Box86 Binary..." $DIALOG_HEIGHT $DIALOG_WIDTH
+    sudo apt-get remove -y box86-tegrax1
+}
+
 # Define function to clean up downloaded files and uncompressed files
 function clean_up() {
     dialog --infobox "Cleaning up downloaded files and uncompressed files..." $DIALOG_HEIGHT $DIALOG_WIDTH
@@ -124,9 +138,15 @@ while true; do
             compile_install_box86
             ;;
         8)
+            remove_box64
+            ;;
+        9)
+            remove_box86
+            ;;
+        10)
             clean_up
             ;;
-        9)  
+        11)  
             exit 0
             ;;
     esac
