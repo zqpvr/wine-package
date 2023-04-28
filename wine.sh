@@ -5,20 +5,27 @@ DIALOG_HEIGHT=20
 DIALOG_WIDTH=80
 
 # Define options menu
-OPTIONS=(1 "Install Box64 and Box86 repositories"
-         2 "Install Wine and dependencies"
-         3 "Install Winetricks"
-         4 "Install required packages"
-         5 "Clean up downloaded files and uncompressed files"
-         6 "Exit")
+OPTIONS=(1 "Install Box64 Binary"
+         2 "Install Box86 Binary"
+         3 "Install Wine and dependencies"
+         4 "Install Winetricks"
+         5 "Install required packages"
+         6 "Compile and Install Box64 from source"
+         7 "Compile and Install Box86 from source"
+         8 "Clean up downloaded files and uncompressed files"
+         9 "Exit")
 
-# Define function to install Box64 and Box86 repositories
-function install_repos() {
-    dialog --infobox "Adding Box64 and Box86 repositories and installing packages..." $DIALOG_HEIGHT $DIALOG_WIDTH
+# Define function to install Box64 Binary
+function install_box64() {
+    dialog --infobox "Adding Box64 repository and installing packages..." $DIALOG_HEIGHT $DIALOG_WIDTH
     sudo wget https://ryanfortner.github.io/box64-debs/box64.list -O /etc/apt/sources.list.d/box64.list
     wget -qO- https://ryanfortner.github.io/box64-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box64-debs-archive-keyring.gpg 
     sudo apt update && sudo apt install box64-tegrax1 -y
+}
 
+# Define function to install Box86 Binary
+function install_box86() {
+    dialog --infobox "Adding Box86 repository and installing packages..." $DIALOG_HEIGHT $DIALOG_WIDTH
     sudo wget https://ryanfortner.github.io/box86-debs/box86.list -O /etc/apt/sources.list.d/box86.list
     wget -qO- https://ryanfortner.github.io/box86-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box86-debs-archive-keyring.gpg 
     sudo apt update && sudo apt install box86-tegrax1 -y
@@ -52,6 +59,34 @@ function install_packages() {
     libudev1:armhf libgl1-mesa-dev:armhf libx11-dev:armhf libsdl2-image-2.0-0:armhf libsdl2-mixer-2.0-0:armhf
 }
 
+# Define function to compile and install Box64 from source
+function compile_install_box64() {
+    dialog --infobox "Compiling Box64 from source..." $DIALOG_HEIGHT $DIALOG_WIDTH
+    sudo apt install zenity cmake git build-essential gcc-11 g++-11 -y || error "Could not install dependencies"
+    git clone --depth=1 https://github.com/ptitSeb/box64
+    cd box64
+    mkdir build
+    cd build
+    cmake .. -DLD80BITS=1 -DNOALIGN=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=gcc-11
+    echo "Building Box64"
+}
+
+# Define function to compile and install Box86 from source
+function compile_install_box86() {
+    dialog --infobox "Compiling Box86 from source..." $DIALOG_HEIGHT $DIALOG_WIDTH
+    sudo apt install gcc-8-arm-linux-gnueabihf -y || error "Could not install dependencies"
+    git clone https://github.com/ptitSeb/box86.git 
+    cd box86 
+    mkdir build 
+    cd build 
+    cmake .. -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc-8 -DARM_DYNAREC=ON
+    echo "Building Box86"
+    make -j$(nproc)
+    echo "Still Building Box86"
+    sudo make install
+    sudo systemctl restart systemd-binfmt
+}
+
 # Define function to clean up downloaded files and uncompressed files
 function clean_up() {
     dialog --infobox "Cleaning up downloaded files and uncompressed files..." $DIALOG_HEIGHT $DIALOG_WIDTH
@@ -68,21 +103,30 @@ while true; do
 
     case $CHOICE in
         1)
-            install_repos
+            install_box64
             ;;
         2)
-            install_wine
+            install_box86
             ;;
         3)
-            install_winetricks
+            install_wine
             ;;
         4)
-           install_packages
+            install_winetricks
             ;;
         5)
-            clean_up
+            install_packages
             ;;
         6)  
+            compile_install_box64
+            ;;
+        7)  
+            compile_install_box86
+            ;;
+        8)
+            clean_up
+            ;;
+        9)  
             exit 0
             ;;
     esac
