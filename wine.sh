@@ -186,8 +186,5 @@ while true; do
         11)  
             exit 0
             ;;
-        *)
-            dialog --msgbox "Invalid input. Please enter a valid option." $DIALOG_HEIGHT $DIALOG_WIDTH
-            ;;
     esac
 done
