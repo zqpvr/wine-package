@@ -21,9 +21,12 @@ OPTIONS=(1 "Install Box64 Binary"
 function install_box64() {
     dialog --infobox "Adding Box64 repository and installing packages..." $DIALOG_HEIGHT $DIALOG_WIDTH
     sudo wget https://ryanfortner.github.io/box64-debs/box64.list -O /etc/apt/sources.list.d/box64.list
-    wget -qO- https://ryanfortner.github.io/box64-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box64-debs-archive-keyring.gpg 
+    wget -qO- https://fortner.github.io/box64-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box64-debs-archive-keyring.gpg 
     sudo apt update 
-    sudo apt install box64-tegrax1 -y
+    sudo install box64-tegrax1 -y
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error installing Box64 Binary. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to install Box86 Binary
@@ -33,6 +36,9 @@ function install_box86() {
     wget -qO- https://ryanfortner.github.io/box86-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box86-debs-archive-keyring.gpg 
     sudo apt update 
     sudo apt install box86-tegrax1 -y
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error installing Box86 Binary. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to install Wine
@@ -43,6 +49,9 @@ function install_wine() {
     mkdir ~/wine # Create Wine directory
     mv wine-8.7-staging-amd64/* ~/wine/ # Move Wine files to Wine directory
     sudo ln -sf ~/wine/bin/* /usr/local/bin/ # Create symbolic links for Wine binaries
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error installing Wine. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to install Winetricks
@@ -51,6 +60,9 @@ function install_winetricks() {
     wget --show-progress -O winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
     sudo chmod +x winetricks # Make Winetricks executable
     sudo mv winetricks /usr/local/bin/ # Move Winetricks to bin directory
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error installing Winetricks. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to install required packages
@@ -61,6 +73,9 @@ function install_packages() {
     libgtk2.0-0:armhf libstdc++6:armhf libsdl2-2.0-0:armhf mesa-va-drivers:armhf libsdl-mixer1.2:armhf \
     libpng16-16:armhf libsdl2-net-2.0-0:armhf libopenal1:armhf libsdl2-image-2.0-0:armhf libjpeg62:armhf \
     libudev1:armhf libgl1-mesa-dev:armhf libx11-dev:armhf libsdl2-image-2.0-0:armhf libsdl2-mixer-2.0-0:armhf
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error installing required packages. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to compile and install Box64 from source
@@ -72,7 +87,11 @@ function compile_install_box64() {
     mkdir build
     cd build
     cmake .. -DLD80BITS=1 -DNOALIGN=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=gcc-11
-    echo "Building Box64"
+    make -j$(nproc)
+    sudo make install
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error compiling and installing Box64 from source. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to compile and install Box86 from source
@@ -85,23 +104,30 @@ function compile_install_box86() {
     mkdir build 
     cd build 
     cmake .. -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc-8 -DARM_DYNAREC=ON
-    echo "Building Box86"
     make -j$(nproc)
-    echo "Still Building Box86"
     sudo make install
     sudo systemctl restart systemd-binfmt
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error compiling and installing Box86 from source. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to remove Box64 Binary
 function remove_box64() {
     dialog --infobox "Removing Box64 Binary..." $DIALOG_HEIGHT $DIALOG_WIDTH
     sudo apt-get remove -y box64-tegrax1
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error removing Box64 Binary. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to remove Box86 Binary
 function remove_box86() {
     dialog --infobox "Removing Box86 Binary..." $DIALOG_HEIGHT $DIALOG_WIDTH
     sudo apt-get remove -y box86-tegrax1
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error removing Box86 Binary. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Define function to clean up downloaded files and uncompressed files
@@ -109,6 +135,9 @@ function clean_up() {
     dialog --infobox "Cleaning up downloaded files and uncompressed files..." $DIALOG_HEIGHT $DIALOG_WIDTH
     rm wine-8.6-staging-tkg-amd64.tar.xz
     rm -r wine-8.6-staging-tkg-amd64
+    if [ $? -ne 0 ]; then
+        dialog --msgbox "Error cleaning up downloaded files and uncompressed files. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+    fi
 }
 
 # Loop through options until user exits
@@ -117,6 +146,11 @@ while true; do
                     --menu "Choose an option:" $DIALOG_HEIGHT $DIALOG_WIDTH $DIALOG_HEIGHT \
                     "${OPTIONS[@]}" \
                     2>&1 >/dev/tty)
+
+    # Validate user input
+    if ! [[ "$CHOICE" =~ ^[0-9]+$ ]]; then
+        exit 0
+    fi
 
     case $CHOICE in
         1)
@@ -151,6 +185,9 @@ while true; do
             ;;
         11)  
             exit 0
+            ;;
+        *)
+            dialog --msgbox "Invalid input. Please enter a valid option." $DIALOG_HEIGHT $DIALOG_WIDTH
             ;;
     esac
 done
