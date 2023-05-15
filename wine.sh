@@ -43,12 +43,34 @@ function install_box86() {
 
 # Define function to install Wine
 function install_wine() {
-    dialog --infobox "Installing Wine..." $DIALOG_HEIGHT $DIALOG_WIDTH
-    wget --show-progress -O wine-8.8-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.8/wine-8.8-staging-tkg-amd64.tar.xz
-    tar -xf wine-8.8-staging-tkg-amd64.tar.xz # Extract Wine
+    dialog --menu "Choose Wine version:" $DIALOG_HEIGHT $DIALOG_WIDTH 2 \
+        1 "wine-8.8-staging-tkg" \
+        2 "wine-ge-custom" 2>temp_choice
+
+    choice=$(cat temp_choice)
+
+    case $choice in
+        1)
+            dialog --infobox "Installing wine-8.8-staging-tkg..." $DIALOG_HEIGHT $DIALOG_WIDTH
+            wget --show-progress -O wine-8.8-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.8/wine-8.8-staging-tkg-amd64.tar.xz
+            tar -xf wine-8.8-staging-tkg-amd64.tar.xz # Extract Wine
+            ;;
+        2)
+            dialog --infobox "Installing wine-ge-custom..." $DIALOG_HEIGHT $DIALOG_WIDTH
+            wget --show-progress -O wine-lutris-GE-Proton8-5-x86_64.tar.xz https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-5/wine-lutris-GE-Proton8-5-x86_64.tar.xz
+            tar -xf wine-lutris-GE-Proton8-5-x86_64.tar.xz # Extract Wine-GE custom release
+            ;;
+        *)
+            dialog --msgbox "Invalid choice. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
+            return
+            ;;
+    esac
+
     mkdir ~/wine # Create Wine directory
-    mv wine-8.8-staging-tkg-amd64/* ~/wine/ # Move Wine files to Wine directory
+    mv wine*/* ~/wine/ # Move Wine files to Wine directory
+    mv lutris*/* ~/wine/ # if wine-ge-custom is downloaded do this
     sudo ln -sf ~/wine/bin/* /usr/local/bin/ # Create symbolic links for Wine binaries
+
     if [ $? -ne 0 ]; then
         dialog --msgbox "Error installing Wine. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
     fi
@@ -133,8 +155,8 @@ function remove_box86() {
 # Define function to clean up downloaded files and uncompressed files
 function clean_up() {
     dialog --infobox "Cleaning up downloaded files and uncompressed files..." $DIALOG_HEIGHT $DIALOG_WIDTH
-    rm wine-8.6-staging-tkg-amd64.tar.xz
-    rm -r wine-8.6-staging-tkg-amd64
+    rm wine-*
+    rm -r wine-*
     if [ $? -ne 0 ]; then
         dialog --msgbox "Error cleaning up downloaded files and uncompressed files. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
     fi
