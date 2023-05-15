@@ -157,6 +157,8 @@ function clean_up() {
     dialog --infobox "Cleaning up downloaded files and uncompressed files..." $DIALOG_HEIGHT $DIALOG_WIDTH
     rm wine-*
     rm -r wine-*
+    rm lutris*
+    rm -r lutris*
     if [ $? -ne 0 ]; then
         dialog --msgbox "Error cleaning up downloaded files and uncompressed files. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
     fi
