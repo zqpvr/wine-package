@@ -44,10 +44,10 @@ function install_box86() {
 # Define function to install Wine
 function install_wine() {
     dialog --infobox "Installing Wine..." $DIALOG_HEIGHT $DIALOG_WIDTH
-    wget --show-progress -O wine-8.7-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.7/wine-8.7-staging-tkg-amd64.tar.xz
-    tar -xf wine-8.7-staging-tkg-amd64.tar.xz # Extract Wine
+    wget --show-progress -O wine-8.8-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.8/wine-8.8-staging-tkg-amd64.tar.xz
+    tar -xf wine-8.8-staging-tkg-amd64.tar.xz # Extract Wine
     mkdir ~/wine # Create Wine directory
-    mv wine-8.7-staging-tkg-amd64/* ~/wine/ # Move Wine files to Wine directory
+    mv wine-8.8-staging-tkg-amd64/* ~/wine/ # Move Wine files to Wine directory
     sudo ln -sf ~/wine/bin/* /usr/local/bin/ # Create symbolic links for Wine binaries
     if [ $? -ne 0 ]; then
         dialog --msgbox "Error installing Wine. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
