@@ -12,9 +12,6 @@ Navigate to the wine directory by running the following command:
 ```
 cd wine-package
 ```
-Make the wine.sh script executable by running the following command:
-```
-chmod +x wine.sh
 ```
 Run the wine.sh script by running the following command:
 ```
