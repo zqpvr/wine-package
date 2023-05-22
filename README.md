@@ -12,7 +12,6 @@ Navigate to the wine directory by running the following command:
 ```
 cd wine-package
 ```
-```
 Run the wine.sh script by running the following command:
 ```
 bash wine.sh
