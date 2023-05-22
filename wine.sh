@@ -57,8 +57,8 @@ function install_wine() {
             ;;
         2)
             dialog --infobox "Installing wine-ge-custom..." $DIALOG_HEIGHT $DIALOG_WIDTH
-            wget --show-progress -O wine-lutris-GE-Proton8-5-x86_64.tar.xz https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-5/wine-lutris-GE-Proton8-5-x86_64.tar.xz
-            tar -xf wine-lutris-GE-Proton8-5-x86_64.tar.xz # Extract Wine-GE custom release
+            wget --show-progress -O wine-lutris-GE-Proton8-6-x86_64.tar.xz https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-6/wine-lutris-GE-Proton8-6-x86_64.tar.xz
+            tar -xf wine-lutris-GE-Proton8-6-x86_64.tar.xz # Extract Wine-GE custom release
             ;;
         *)
             dialog --msgbox "Invalid choice. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
