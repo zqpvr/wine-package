@@ -44,16 +44,16 @@ function install_box86() {
 # Define function to install Wine
 function install_wine() {
     dialog --menu "Choose Wine version:" $DIALOG_HEIGHT $DIALOG_WIDTH 2 \
-        1 "wine-8.8-staging-tkg" \
+        1 "wine-8.9-staging-tkg" \
         2 "wine-ge-custom" 2>temp_choice
 
     choice=$(cat temp_choice)
 
     case $choice in
         1)
-            dialog --infobox "Installing wine-8.8-staging-tkg..." $DIALOG_HEIGHT $DIALOG_WIDTH
-            wget --show-progress -O wine-8.8-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.8/wine-8.8-staging-tkg-amd64.tar.xz
-            tar -xf wine-8.8-staging-tkg-amd64.tar.xz # Extract Wine
+            dialog --infobox "Installing wine-8.9-staging-tkg..." $DIALOG_HEIGHT $DIALOG_WIDTH
+            wget --show-progress -O wine-8.9-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.9/wine-8.9-staging-tkg-amd64.tar.xz
+            tar -xf wine-8.9-staging-tkg-amd64.tar.xz # Extract Wine
             ;;
         2)
             dialog --infobox "Installing wine-ge-custom..." $DIALOG_HEIGHT $DIALOG_WIDTH
