@@ -52,8 +52,8 @@ function install_wine() {
     case $choice in
         1)
             dialog --infobox "Installing wine-8.9-staging-tkg..." $DIALOG_HEIGHT $DIALOG_WIDTH
-            wget --show-progress -O wine-8.9-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.9/wine-8.9-staging-tkg-amd64.tar.xz
-            tar -xf wine-8.9-staging-tkg-amd64.tar.xz # Extract Wine
+            wget --show-progress -O wine-8.10-staging-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.10/wine-8.10-staging-amd64.tar.xz
+            tar -xf wine-8.10-staging-amd64.tar.xz # Extract Wine
             ;;
         2)
             dialog --infobox "Installing wine-ge-custom..." $DIALOG_HEIGHT $DIALOG_WIDTH
