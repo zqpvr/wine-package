@@ -51,14 +51,14 @@ function install_wine() {
 
     case $choice in
         1)
-            dialog --infobox "Installing wine-8.10-staging-tkg-amd64..." $DIALOG_HEIGHT $DIALOG_WIDTH
-            wget --show-progress -O wine-8.10-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.10/wine-8.10-staging-tkg-amd64.tar.xz
-            tar -xf wine-8.10-staging-tkg-amd64.tar.xz # Extract Wine
+            dialog --infobox "Installing wine-8.11-staging-tkg-amd64..." $DIALOG_HEIGHT $DIALOG_WIDTH
+            wget --show-progress -O wine-8.11-staging-tkg-amd64.tar.xz https://github.com/Kron4ek/Wine-Builds/releases/download/8.11/wine-8.11-staging-tkg-amd64.tar.xz
+            tar -xf wine-8.11-staging-tkg-amd64.tar.xz # Extract Wine
             ;;
         2)
             dialog --infobox "Installing wine-ge-custom..." $DIALOG_HEIGHT $DIALOG_WIDTH
-            wget --show-progress -O wine-lutris-GE-Proton8-8-x86_64.tar.xz https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-8/wine-lutris-GE-Proton8-8-x86_64.tar.xz
-            tar -xf wine-lutris-GE-Proton8-8-x86_64.tar.xz # Extract Wine-GE custom release
+            wget --show-progress -O wine-lutris-GE-Proton8-9-x86_64.tar.xz https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-9/wine-lutris-GE-Proton8-9-x86_64.tar.xz
+            tar -xf wine-lutris-GE-Proton8-9-x86_64.tar.xz # Extract Wine-GE custom release
             ;;
         *)
             dialog --msgbox "Invalid choice. Please try again." $DIALOG_HEIGHT $DIALOG_WIDTH
