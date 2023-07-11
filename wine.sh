@@ -44,7 +44,7 @@ function install_box86() {
 # Define function to install Wine
 function install_wine() {
     dialog --menu "Choose Wine version:" $DIALOG_HEIGHT $DIALOG_WIDTH 2 \
-        1 "wine-8.9-staging-tkg" \
+        1 "wine-8.12-staging-tkg" \
         2 "wine-ge-custom" 2>temp_choice
 
     choice=$(cat temp_choice)
